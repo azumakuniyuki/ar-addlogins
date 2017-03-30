@@ -1,11 +1,11 @@
 ---
-#  _                 _       _                     ___            _        
-# | |__   ___   ___ | |_ ___| |_ _ __ __ _ _ __   / / |_ __ _ ___| | _____ 
-# | '_ \ / _ \ / _ \| __/ __| __| '__/ _` | '_ \ / /| __/ _` / __| |/ / __|
-# | |_) | (_) | (_) | |_\__ \ |_| | | (_| | |_) / / | || (_| \__ \   <\__ \
-# |_.__/ \___/ \___/ \__|___/\__|_|  \__,_| .__/_/   \__\__,_|___/_|\_\___/
-#                                         |_|                              
-# tasks file for ar-add-users
+#            _     _ _             _              ___            _        
+#   __ _  __| | __| | | ___   __ _(_)_ __  ___   / / |_ __ _ ___| | _____ 
+#  / _` |/ _` |/ _` | |/ _ \ / _` | | '_ \/ __| / /| __/ _` / __| |/ / __|
+# | (_| | (_| | (_| | | (_) | (_| | | | | \__ \/ / | || (_| \__ \   <\__ \
+#  \__,_|\__,_|\__,_|_|\___/ \__, |_|_| |_|___/_/   \__\__,_|___/_|\_\___/
+#                            |___/                                        
+# tasks file for ar-addlogins
 - name: wheel group should be created
   group: name=wheel state=present
 
@@ -15,10 +15,10 @@
         name={{ item.group }}
         gid={{ item.gid }}
         state=present
-      with_items: "{{ addusers.unixusers }}"
+      with_items: "{{ addlogins.unixusers }}"
 
     - name: Each user should be created
-      when: addusers.enabled == true
+      when: addlogins.enabled == true
       user: >
         name={{ item.username }} 
         password={{ item.password }}
@@ -28,7 +28,7 @@
         home={{ item.home }}
         createhome=yes
         state=present
-      with_items: "{{ addusers.unixusers }}"
+      with_items: "{{ addlogins.unixusers }}"
 
     - name: Belongs to other group
       user: >
@@ -36,7 +36,7 @@
         groups={{ item.0.group }}
         state=present
       with_subelements:
-        - "{{ addusers.belongsto }}"
+        - "{{ addlogins.belongsto }}"
         - 'users'
-  when: addusers.enabled == true
+  when: addlogins.enabled == true
 
