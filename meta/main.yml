@@ -1,0 +1,14 @@
+galaxy_info:
+  author: azumakuniyuki
+  description: add unix users and groups
+  company: Cubicroot Co. Ltd.
+  issue_tracker_url: https://github.com/azumakuniyuki/ar-add-users/issues
+  license: BSD
+  min_ansible_version: 2.0
+  platforms:
+  - name: EL
+    versions:
+    - all
+  galaxy_tags: ['linux', 'system']
+dependencies: []
+
