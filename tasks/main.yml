@@ -7,36 +7,46 @@
 #                            |___/                                        
 # tasks file for ar-addlogins
 - name: wheel group should be created
-  group: name=wheel state=present
+  group:
+    name:  "wheel"
+    state: "present"
 
 - block:
     - name: Each group should be created
-      group: >
-        name={{ item.group }}
-        gid={{ item.gid }}
-        state=present
+      group:
+        name:  "{{ item.group }}"
+        gid:   "{{ item.gid }}"
+        state: "present"
       with_items: "{{ addlogins.unixusers }}"
 
     - name: Each user should be created
-      when: addlogins.enabled == true
-      user: >
-        name={{ item.username }} 
-        password={{ item.password }}
-        uid={{ item.uid }}
-        group={{ item.group }} 
-        shell={{ item.shell }}
-        home={{ item.home }}
-        createhome=yes
-        state=present
+      user:
+        createhome: "yes"
+        name:     "{{ item.username }}"
+        password: "{{ item.password }}"
+        uid:      "{{ item.uid }}"
+        group:    "{{ item.group }}"
+        shell:    "{{ item.shell }}"
+        home:     "{{ item.home }}"
+        state:    "present"
       with_items: "{{ addlogins.unixusers }}"
 
     - name: Belongs to other group
-      user: >
-        name={{ item.1 }} 
-        groups={{ item.0.group }}
-        state=present
+      user:
+        name:   "{{ item.1 }}"
+        groups: "{{ item.0.group }}"
+        state:  "present"
       with_subelements:
         - "{{ addlogins.belongsto }}"
-        - 'users'
+        - "users"
+
+    - name: SSH public keys should be registered
+      when: item.key
+      authorized_key:
+        user:  "{{ item.username }}"
+        state: "present"
+        key:   "{{ item.key }}"
+        validate_certs: true
+      with_items: "{{ addlogins.unixusers }}"
   when: addlogins.enabled == true
 

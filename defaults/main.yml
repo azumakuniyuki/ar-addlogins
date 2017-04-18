@@ -16,14 +16,15 @@
 addlogins:
   enabled: false
   belongsto:
-    - group: wheel
-      users: ['admin']
+    - group: "wheel"
+      users: ["admin"]
   unixusers:
-    - username: admin
-      password: $1$HakataNo$9.s0dLxBeUTgTarKe3uU//
-      shell: /bin/sh
-      group: admin
-      home: /home/admin
-      uid: 1001
-      gid: 1001
+    - username: "admin"
+      password: "$1$HakataNo$9.s0dLxBeUTgTarKe3uU//"
+      shell: "/bin/sh"
+      group: "admin"
+      home: "/home/admin"
+      uid: "1001"
+      gid: "1001"
+      key: false
 
