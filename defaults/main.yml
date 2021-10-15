@@ -6,6 +6,7 @@
 #  \__,_|\__,_|\__,_|_|\___/ \__, |_|_| |_|___/_/ \__,_|\___|_|  \__,_|\__,_|_|\__|___/
 #                            |___/                                                     
 # How do I generate crypted passwords for the user module?
+#   $ openssl passwd -6 -salt=salt Secret-Password
 #   $ perl -lE 'print crypt(q|Secret-Password|, q|$6$SaltText|);'
 #   $ ruby -e 'p "Secret-Password".crypt("$5$NekoChan")'
 #   $ python -c 'import crypt; print crypt.crypt("password", "$1$Hakata$")'
